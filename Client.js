@@ -19,7 +19,7 @@ function mixin(obj1, obj2) {
 
 function Client(uri) {
 	EventEmitter.call(this);
-	this.uri = "wss://mppws.cf";
+	this.uri = "wss://app.multiplayerpiano.com:443";
 	this.ws = undefined;
 	this.serverTimeOffset = 0;
 	this.user = undefined;
