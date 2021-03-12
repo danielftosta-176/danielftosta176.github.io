@@ -19,7 +19,7 @@ function mixin(obj1, obj2) {
 
 function Client(uri) {
 	EventEmitter.call(this);
-	this.uri = uri;
+	this.uri = "wss://app.multiplayerpiano.com";
 	this.ws = undefined;
 	this.serverTimeOffset = 0;
 	this.user = undefined;
@@ -75,7 +75,7 @@ Client.prototype.connect = function() {
 	if(typeof module !== "undefined") {
 		// nodejsicle
 		this.ws = new WebSocket(this.uri, {
-			origin: "https://multiplayerpiano.com"
+			origin: "https://multiplayerpiano.com/"
 		});
 	} else {
 		// browseroni
