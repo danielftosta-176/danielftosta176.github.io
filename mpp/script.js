@@ -336,7 +336,7 @@ Rect.prototype.contains = function(x, y) {
 
 	AudioEngineWeb = function() {
 		this.threshold = 1000;
-		this.worker = new Worker("/workerTimer.js");
+		this.worker = new Worker("workerTimer.js");
 		var self = this;
 		this.worker.onmessage = function(event)
 			{
@@ -914,7 +914,7 @@ Rect.prototype.contains = function(x, y) {
 		}
 
 		if (typeof pack == "string") {
-			$.getJSON(pack + "info.json").done(function(json) {
+			$.getJSON(pack + "/info.json").done(function(json) {
 				json.url = pack;
 				add(json);
 			});
@@ -1171,27 +1171,18 @@ Rect.prototype.contains = function(x, y) {
 
 
 
-	function getParameterByName(name, url = window.location.href) {
-		name = name.replace(/[\[\]]/g, '\\$&');
-		var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-			results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, ' '));
-	}
+
 
 // internet science
 
 ////////////////////////////////////////////////////////////////
 
-	var channel_id = decodeURIComponent(getParameterByName('c'));
+	var channel_id = decodeURIComponent(window.location.pathname);
 	if(channel_id.substr(0, 1) == "/") channel_id = channel_id.substr(1);
 	if(channel_id == "") channel_id = "lobby";
 
-	var isProd =  window.location.hostname.includes('multiplayerpiano.com')
-	var wssport = isProd ? 443 : 8081;
-	var protocol = isProd ? 'wss' : 'ws'////
-	var gClient = new Client(protocol + "://" + (isProd ? 'app.multiplayerpiano.com' : window.location.hostname) + ":" + wssport);
+	//var wssport = window.location.hostname == "www.multiplayerpiano.com" ? 443 : 8443;
+	var gClient = new Client("wss://hri7566.info:2050");
 	gClient.setChannel(channel_id);
 	gClient.start();
 
@@ -1421,9 +1412,6 @@ Rect.prototype.contains = function(x, y) {
 			last_mx = mx;
 			last_my = my;
 			gClient.sendArray([{m: "m", x: mx, y: my}]);
-			if(gSeeOwnCursor) {
-				gClient.emit("m", { m: "m", id: gClient.participantId, x: mx, y: my });
-			}
 			var part = gClient.getOwnParticipant();
 			if(part) {
 				part.x = mx;
@@ -1435,6 +1423,33 @@ Rect.prototype.contains = function(x, y) {
 		mx = ((event.pageX / $(window).width()) * 100).toFixed(2);
 		my = ((event.pageY / $(window).height()) * 100).toFixed(2);
 	});
+
+	// Animate cursors
+	setInterval(function() {
+		for(var id in gClient.ppl) {
+			if(!gClient.ppl.hasOwnProperty(id)) continue;
+			var part = gClient.ppl[id];
+			if(part.cursorDiv && (Math.abs(part.x - part.displayX) > 0.1 || Math.abs(part.y - part.displayY) > 0.1)) {
+				part.displayX += (part.x - part.displayX) * 0.225;
+				part.displayY += (part.y - part.displayY) * 0.225;
+				part.cursorDiv.style.left = part.displayX + "%";
+				part.cursorDiv.style.top = part.displayY + "%";
+			}
+		}
+	}, 1000 / 60); /* 60 fps */
+    
+    setInterval(function() {
+		for(var id in gClient.ppl) {
+			if(!gClient.ppl.hasOwnProperty(id)) continue;
+			var part = gClient.ppl[id];
+			if(part.cursorDiv && (Math.abs(part.x - part.displayX) > 0.1 || Math.abs(part.y - part.displayY) > 0.1)) {
+				part.displayX += (part.x - part.displayX) * 0.225;
+				part.displayY += (part.y - part.displayY) * 0.225;
+				part.cursorDiv.style.left = part.displayX + "%";
+				part.cursorDiv.style.top = part.displayY + "%";
+			}
+		}
+	}, 1000 / 60);
 
 
 	// Room settings button
@@ -2271,10 +2286,10 @@ Rect.prototype.contains = function(x, y) {
 			closeModal();
 			changeRoom(name, "right", settings);
 			setTimeout(function() {
-				new Notification({id: "share", title: "Created a Room", html: 'You can invite friends to your room by sending them the link.<br/><br/>\
-					<a href="#" onclick="window.open(\'https://www.facebook.com/sharer/sharer.php?u=\'+encodeURIComponent(location.href),\'facebook-share-dialog\',\'width=626,height=436\');return false;">Share on Facebook</a><br/><br/>\
-					<a href="http://twitter.com/home?status='+encodeURIComponent(location.href)+'" target="_blank">Tweet</a>', duration: 25000});
-			}, 1000);
+			new Notification({id: "share", title: "Created a Room", html: 'You can invite friends to your room by sending them the link.<br/><br/>\
+				<a href="#" onclick="window.open(\'https://www.facebook.com/sharer/sharer.php?u=\'+encodeURIComponent(location.href),\'facebook-share-dialog\',\'width=626,height=436\');return false;">Share on Facebook</a><br/><br/>\
+				<a href="http://twitter.com/home?status='+encodeURIComponent(location.href)+'" target="_blank">Tweet</a>', duration: 25000});
+		}, 1000);
 		};
 		$("#new-room .submit").click(function(evt) {
 			submit();
@@ -2309,7 +2324,7 @@ Rect.prototype.contains = function(x, y) {
 		if(name == "") name = "lobby";
 		if(gClient.channel && gClient.channel._id === name) return;
 		if(push) {
-			var url = "?c=" + encodeURIComponent(name).replace("'", "%27");
+			var url = "/" + encodeURIComponent(name).replace("'", "%27");
 			if(window.history && history.pushState) {
 				history.pushState({"depth": gHistoryDepth += 1, "name": name}, "Piano > " + name, url);
 			} else {
