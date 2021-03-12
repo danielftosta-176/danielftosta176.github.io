@@ -1,8 +1,10 @@
 
 if(typeof module !== "undefined") {
 	module.exports = Client;
-	WebSocket = require("ws");
-	EventEmitter = require("events").EventEmitter;
+	var WebSocket = require("ws");
+	var EventEmitter = require("events").EventEmitter;
+	var HttpsProxyAgent = require("https-proxy-agent");
+	var SocksProxyAgent = require("socks-proxy-agent");
 } else {
 	this.Client = Client;
 }
@@ -17,9 +19,10 @@ function mixin(obj1, obj2) {
 };
 
 
-function Client(uri) {
+function Client(uri, proxy) {
 	EventEmitter.call(this);
-	this.uri = "wss://app.multiplayerpiano.com";
+	this.uri = uri || "wss://app.multiplayerpiano.com:443";
+	this.proxy = proxy;
 	this.ws = undefined;
 	this.serverTimeOffset = 0;
 	this.user = undefined;
@@ -35,7 +38,6 @@ function Client(uri) {
 	this.noteBuffer = [];
 	this.noteBufferTime = 0;
 	this.noteFlushInterval = undefined;
-	this['🐈'] = 0;
 
 	this.bindEventListeners();
 
@@ -75,12 +77,15 @@ Client.prototype.connect = function() {
 	if(typeof module !== "undefined") {
 		// nodejsicle
 		this.ws = new WebSocket(this.uri, {
-			origin: "https://multiplayerpiano.com/"
+			origin: "https://mpp.terrium.net/",
+            headers: {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.68'},
+			agent: this.proxy ? this.proxy.startsWith("socks") ? new SocksProxyAgent(this.proxy) : new HttpsProxyAgent(this.proxy) : undefined
 		});
 	} else {
 		// browseroni
 		this.ws = new WebSocket(this.uri);
 	}
+	this.ws.binaryType = "arraybuffer";
 	var self = this;
 	this.ws.addEventListener("close", function(evt) {
 		self.user = undefined;
@@ -90,7 +95,7 @@ Client.prototype.connect = function() {
 		clearInterval(self.pingInterval);
 		clearInterval(self.noteFlushInterval);
 
-		self.emit("disconnect", evt);
+		self.emit("disconnect");
 		self.emit("status", "Offline mode");
 
 		// reconnect!
@@ -106,13 +111,12 @@ Client.prototype.connect = function() {
 		var ms = ms_lut[idx];
 		setTimeout(self.connect.bind(self), ms);
 	});
-	this.ws.addEventListener("error", function(err) {
-		self.emit("wserror", err);
-		self.ws.close(); // self.ws.emit("close");
+	this.ws.addEventListener("error", function(error) {
+		self.emit("error", error);
 	});
 	this.ws.addEventListener("open", function(evt) {
 		self.connectionTime = Date.now();
-		self.sendArray([{"m": "hi", "🐈": self['🐈']++ || undefined }]);
+		self.sendArray([{m: "hi"}]);
 		self.pingInterval = setInterval(function() {
 			self.sendArray([{m: "t", e: Date.now()}]);
 		}, 20000);
@@ -131,10 +135,16 @@ Client.prototype.connect = function() {
 		self.emit("status", "Joining channel...");
 	});
 	this.ws.addEventListener("message", function(evt) {
-		var transmission = JSON.parse(evt.data);
-		for(var i = 0; i < transmission.length; i++) {
-			var msg = transmission[i];
-			self.emit(msg.m, msg);
+		self.emit("message", evt);
+		if (typeof evt.data !== "string") return;
+		try {
+			var transmission = JSON.parse(evt.data);
+			for(var i = 0; i < transmission.length; i++) {
+				var msg = transmission[i];
+				self.emit(msg.m, msg);
+			}
+		} catch(e) {
+			self.emit("error", e);
 		}
 	});
 };
@@ -153,7 +163,6 @@ Client.prototype.bindEventListeners = function() {
 	});
 	this.on("ch", function(msg) {
 		self.desiredChannelId = msg.ch._id;
-		self.desiredChannelSettings = msg.ch.settings;
 		self.channel = msg.ch;
 		if(msg.p) self.participantId = msg.p;
 		self.setParticipants(msg.ppl);
@@ -187,6 +196,10 @@ Client.prototype.setChannel = function(id, set) {
 };
 
 Client.prototype.offlineChannelSettings = {
+	lobby: true,
+	visible: false,
+	chat: false,
+	crownsolo: false,
 	color:"#ecfaed"
 };
 
@@ -195,18 +208,6 @@ Client.prototype.getChannelSetting = function(key) {
 		return this.offlineChannelSettings[key];
 	} 
 	return this.channel.settings[key];
-};
-
-Client.prototype.setChannelSettings = function(settings) {
-	if(!this.isConnected() || !this.channel || !this.channel.settings) {
-		return;
-	} 
-	if(this.desiredChannelSettings){
-		for(var key in settings) {
-			this.desiredChannelSettings[key] = settings[key];
-		}
-		this.sendArray([{m: "chset", set: this.desiredChannelSettings}]);
-	}
 };
 
 Client.prototype.offlineParticipant = {
@@ -333,3 +334,46 @@ Client.prototype.stopNote = function(note) {
 		}
 	}
 };
+
+
+
+/* extended methods */
+
+Client.prototype.say = function (message) {
+	this.sendArray([{m: "a", message}]);
+};
+
+Client.prototype.userset = function (set) {
+	this.sendArray([{m: "userset", set}]);
+};
+
+Client.prototype.setName = function (name) {
+	this.userset({name});
+};
+
+Client.prototype.moveMouse = function (x, y) {
+	this.sendArray([{m: "m", x, y}]);
+};
+
+Client.prototype.kickBan = function (_id, ms) {
+	this.sendArray([{m: "kickban", _id, ms}]);
+};
+
+Client.prototype.chown = function (id) {
+	this.sendArray([{m: "chown", id}]);
+};
+
+Client.prototype.chset = function (set) {
+	this.sendArray([{m: "chset", set}]);
+};
+
+Client.prototype.grbUser = function (target) {
+    for (var id in this.ppl) {
+        if (!this.ppl.hasOwnProperty(id)) continue;
+        var part = this.ppl[id];
+        if (part.name.toLowerCase().indexOf(target.toLowerCase()) !== -1 || part._id.indexOf(target.toLowerCase()) !== -1 || part.id.indexOf(target.toLowerCase()) !== -1) {
+            return part;
+        }
+    }
+}
+
