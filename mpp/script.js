@@ -1,5 +1,5 @@
 
-// 钢琴
+// é’¢ç´
 
 $(function() {
 
@@ -169,73 +169,73 @@ Rect.prototype.contains = function(x, y) {
 	var Translation = (function() {
 		var strings = {
 			"people are playing": {
-				"pt": "pessoas estão jogando",
-				"es": "personas están jugando",
-				"ru": "человек играет",
+				"pt": "pessoas estÃ£o jogando",
+				"es": "personas estÃ¡n jugando",
+				"ru": "Ñ‡ÐµÐ»Ð¾Ð²ÐµÐº Ð¸Ð³Ñ€Ð°ÐµÑ‚",
 				"fr": "personnes jouent",
-				"ja": "人が遊んでいる",
+				"ja": "äººãŒéŠã‚“ã§ã„ã‚‹",
 				"de": "Leute spielen",
-				"zh": "人在玩",
+				"zh": "äººåœ¨çŽ©",
 				"nl": "mensen spelen",
-				"pl": "osób grają",
-				"hu": "ember játszik"
+				"pl": "osÃ³b grajÄ…",
+				"hu": "ember jÃ¡tszik"
 			},
 			"New Room...": {
 				"pt": "Nova Sala ...",
 				"es": "Nueva sala de...",
-				"ru": "Новый номер...",
-				"ja": "新しい部屋",
-				"zh": "新房间",
+				"ru": "ÐÐ¾Ð²Ñ‹Ð¹ Ð½Ð¾Ð¼ÐµÑ€...",
+				"ja": "æ–°ã—ã„éƒ¨å±‹",
+				"zh": "æ–°æˆ¿é—´",
 				"nl": "nieuwe Kamer",
-				"hu": "új szoba"
+				"hu": "Ãºj szoba"
 			},
 			"room name": {
 				"pt": "nome da sala",
 				"es": "sala de nombre",
-				"ru": "название комнаты",
+				"ru": "Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ ÐºÐ¾Ð¼Ð½Ð°Ñ‚Ñ‹",
 				"fr": "nom de la chambre",
-				"ja": "ルーム名",
+				"ja": "ãƒ«ãƒ¼ãƒ å",
 				"de": "Raumnamen",
-				"zh": "房间名称",
+				"zh": "æˆ¿é—´åç§°",
 				"nl": "kamernaam",
-				"pl": "nazwa pokój",
+				"pl": "nazwa pokÃ³j",
 				"hu": "szoba neve"
 			},
 			"Visible (open to everyone)": {
-				"pt": "Visível (aberto a todos)",
+				"pt": "VisÃ­vel (aberto a todos)",
 				"es": "Visible (abierto a todo el mundo)",
-				"ru": "Visible (открытый для всех)",
-				"fr": "Visible (ouvert à tous)",
-				"ja": "目に見える（誰にでも開いている）",
-				"de": "Sichtbar (offen für alle)",
-				"zh": "可见（向所有人开放）",
+				"ru": "Visible (Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ñ‹Ð¹ Ð´Ð»Ñ Ð²ÑÐµÑ…)",
+				"fr": "Visible (ouvert Ã  tous)",
+				"ja": "ç›®ã«è¦‹ãˆã‚‹ï¼ˆèª°ã«ã§ã‚‚é–‹ã„ã¦ã„ã‚‹ï¼‰",
+				"de": "Sichtbar (offen fÃ¼r alle)",
+				"zh": "å¯è§ï¼ˆå‘æ‰€æœ‰äººå¼€æ”¾ï¼‰",
 				"nl": "Zichtbaar (open voor iedereen)",
 				"pl": "Widoczne (otwarte dla wszystkich)",
-				"hu": "Látható (nyitott mindenki számára)"
+				"hu": "LÃ¡thatÃ³ (nyitott mindenki szÃ¡mÃ¡ra)"
 			},
 			"Enable Chat": {
 				"pt": "Ativar bate-papo",
 				"es": "Habilitar chat",
-				"ru": "Включить чат",
+				"ru": "Ð’ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ Ñ‡Ð°Ñ‚",
 				"fr": "Activer discuter",
-				"ja": "チャットを有効にする",
+				"ja": "ãƒãƒ£ãƒƒãƒˆã‚’æœ‰åŠ¹ã«ã™ã‚‹",
 				"de": "aktivieren Sie chatten",
-				"zh": "启用聊天",
+				"zh": "å¯ç”¨èŠå¤©",
 				"nl": "Chat inschakelen",
-				"pl": "Włącz czat",
-				"hu": "a csevegést"
+				"pl": "WÅ‚Ä…cz czat",
+				"hu": "a csevegÃ©st"
 			},
 			"Play Alone": {
 				"pt": "Jogar Sozinho",
 				"es": "Jugar Solo",
-				"ru": "Играть в одиночку",
+				"ru": "Ð˜Ð³Ñ€Ð°Ñ‚ÑŒ Ð² Ð¾Ð´Ð¸Ð½Ð¾Ñ‡ÐºÑƒ",
 				"fr": "Jouez Seul",
-				"ja": "一人でプレイ",
+				"ja": "ä¸€äººã§ãƒ—ãƒ¬ã‚¤",
 				"de": "Alleine Spielen",
-				"zh": "独自玩耍",
+				"zh": "ç‹¬è‡ªçŽ©è€",
 				"nl": "Speel Alleen",
 				"pl": "Zagraj sam",
-				"hu": "Játssz egyedül"
+				"hu": "JÃ¡tssz egyedÃ¼l"
 			}
 			// todo: it, tr, th, sv, ar, fi, nb, da, sv, he, cs, ko, ro, vi, id, nb, el, sk, bg, lt, sl, hr
 			// todo: Connecting, Offline mode, input placeholder, Notifications
@@ -336,7 +336,7 @@ Rect.prototype.contains = function(x, y) {
 
 	AudioEngineWeb = function() {
 		this.threshold = 1000;
-		this.worker = new Worker("workerTimer.js");
+		this.worker = new Worker("/workerTimer.js");
 		var self = this;
 		this.worker.onmessage = function(event)
 			{
@@ -865,7 +865,7 @@ Rect.prototype.contains = function(x, y) {
 
 
 
-// Soundpack Stuff by electrashave ♥
+// Soundpack Stuff by electrashave â™¥
 
 ////////////////////////////////////////////////////////////////
 
@@ -914,7 +914,7 @@ Rect.prototype.contains = function(x, y) {
 		}
 
 		if (typeof pack == "string") {
-			$.getJSON(pack + "/info.json").done(function(json) {
+			$.getJSON(pack + "info.json").done(function(json) {
 				json.url = pack;
 				add(json);
 			});
@@ -1171,18 +1171,27 @@ Rect.prototype.contains = function(x, y) {
 
 
 
-
+	function getParameterByName(name, url = window.location.href) {
+		name = name.replace(/[\[\]]/g, '\\$&');
+		var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, ' '));
+	}
 
 // internet science
 
 ////////////////////////////////////////////////////////////////
 
-	var channel_id = decodeURIComponent(window.location.pathname);
+	var channel_id = decodeURIComponent(getParameterByName('c'));
 	if(channel_id.substr(0, 1) == "/") channel_id = channel_id.substr(1);
 	if(channel_id == "") channel_id = "lobby";
 
-	//var wssport = window.location.hostname == "www.multiplayerpiano.com" ? 443 : 8443;
-	var gClient = new Client("wss://hri7566.info:2050");
+	var isProd =  window.location.hostname.includes('multiplayerpiano.com')
+	var wssport = isProd ? 443 : 8081;
+	var protocol = isProd ? 'wss' : 'ws'////
+	var gClient = new Client(protocol + "://" + (isProd ? 'app.multiplayerpiano.com' : window.location.hostname) + ":" + wssport);
 	gClient.setChannel(channel_id);
 	gClient.start();
 
@@ -1412,6 +1421,9 @@ Rect.prototype.contains = function(x, y) {
 			last_mx = mx;
 			last_my = my;
 			gClient.sendArray([{m: "m", x: mx, y: my}]);
+			if(gSeeOwnCursor) {
+				gClient.emit("m", { m: "m", id: gClient.participantId, x: mx, y: my });
+			}
 			var part = gClient.getOwnParticipant();
 			if(part) {
 				part.x = mx;
@@ -1423,33 +1435,6 @@ Rect.prototype.contains = function(x, y) {
 		mx = ((event.pageX / $(window).width()) * 100).toFixed(2);
 		my = ((event.pageY / $(window).height()) * 100).toFixed(2);
 	});
-
-	// Animate cursors
-	setInterval(function() {
-		for(var id in gClient.ppl) {
-			if(!gClient.ppl.hasOwnProperty(id)) continue;
-			var part = gClient.ppl[id];
-			if(part.cursorDiv && (Math.abs(part.x - part.displayX) > 0.1 || Math.abs(part.y - part.displayY) > 0.1)) {
-				part.displayX += (part.x - part.displayX) * 0.225;
-				part.displayY += (part.y - part.displayY) * 0.225;
-				part.cursorDiv.style.left = part.displayX + "%";
-				part.cursorDiv.style.top = part.displayY + "%";
-			}
-		}
-	}, 1000 / 60); /* 60 fps */
-    
-    setInterval(function() {
-		for(var id in gClient.ppl) {
-			if(!gClient.ppl.hasOwnProperty(id)) continue;
-			var part = gClient.ppl[id];
-			if(part.cursorDiv && (Math.abs(part.x - part.displayX) > 0.1 || Math.abs(part.y - part.displayY) > 0.1)) {
-				part.displayX += (part.x - part.displayX) * 0.225;
-				part.displayY += (part.y - part.displayY) * 0.225;
-				part.cursorDiv.style.left = part.displayX + "%";
-				part.cursorDiv.style.top = part.displayY + "%";
-			}
-		}
-	}, 1000 / 60);
 
 
 	// Room settings button
@@ -2018,7 +2003,7 @@ Rect.prototype.contains = function(x, y) {
 			eles.remove();
 		}
 		this.domElement = $('<div class="notification"><div class="notification-body"><div class="title"></div>' +
-			'<div class="text"></div></div><div class="x">Ⓧ</div></div>');
+			'<div class="text"></div></div><div class="x">â“</div></div>');
 		this.domElement[0].id = this.id;
 		this.domElement.addClass(this["class"]);
 		this.domElement.find(".title").text(this.title);
@@ -2286,10 +2271,10 @@ Rect.prototype.contains = function(x, y) {
 			closeModal();
 			changeRoom(name, "right", settings);
 			setTimeout(function() {
-			new Notification({id: "share", title: "Created a Room", html: 'You can invite friends to your room by sending them the link.<br/><br/>\
-				<a href="#" onclick="window.open(\'https://www.facebook.com/sharer/sharer.php?u=\'+encodeURIComponent(location.href),\'facebook-share-dialog\',\'width=626,height=436\');return false;">Share on Facebook</a><br/><br/>\
-				<a href="http://twitter.com/home?status='+encodeURIComponent(location.href)+'" target="_blank">Tweet</a>', duration: 25000});
-		}, 1000);
+				new Notification({id: "share", title: "Created a Room", html: 'You can invite friends to your room by sending them the link.<br/><br/>\
+					<a href="#" onclick="window.open(\'https://www.facebook.com/sharer/sharer.php?u=\'+encodeURIComponent(location.href),\'facebook-share-dialog\',\'width=626,height=436\');return false;">Share on Facebook</a><br/><br/>\
+					<a href="http://twitter.com/home?status='+encodeURIComponent(location.href)+'" target="_blank">Tweet</a>', duration: 25000});
+			}, 1000);
 		};
 		$("#new-room .submit").click(function(evt) {
 			submit();
@@ -2324,7 +2309,7 @@ Rect.prototype.contains = function(x, y) {
 		if(name == "") name = "lobby";
 		if(gClient.channel && gClient.channel._id === name) return;
 		if(push) {
-			var url = "/" + encodeURIComponent(name).replace("'", "%27");
+			var url = "?c=" + encodeURIComponent(name).replace("'", "%27");
 			if(window.history && history.pushState) {
 				history.pushState({"depth": gHistoryDepth += 1, "name": name}, "Piano > " + name, url);
 			} else {
