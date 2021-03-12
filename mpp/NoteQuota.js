@@ -10,14 +10,14 @@ var exports = (function() {
 	NoteQuota.PARAMS_LOBBY = {allowance: 200, max: 600};
 	NoteQuota.PARAMS_NORMAL = {allowance: 400, max: 1200};
 	NoteQuota.PARAMS_RIDICULOUS = {allowance: 600, max: 1800};
-	NoteQuota.PARAMS_OFFLINE = {allowance: 8000, max: 24000, maxHistLen: 3};
+	NoteQuota.PARAMS_OFFLINE = {allowance: 8000, max: 24000, histLen: 3};
 
 	NoteQuota.prototype.getParams = function() {
 		return {
 			m: "nq",
 			allowance: this.allowance,
 			max: this.max,
-			maxHistLen: this.maxHistLen
+			histLen: this.histLen
 		};
 	};
 
@@ -25,11 +25,11 @@ var exports = (function() {
 		params = params || NoteQuota.PARAMS_OFFLINE;
 		var allowance = params.allowance || this.allowance || NoteQuota.PARAMS_OFFLINE.allowance;
 		var max = params.max || this.max || NoteQuota.PARAMS_OFFLINE.max;
-		var maxHistLen = params.maxHistLen || this.maxHistLen || NoteQuota.PARAMS_OFFLINE.maxHistLen;
-		if(allowance !== this.allowance || max !== this.max || maxHistLen !== this.maxHistLen) {
+		var histLen = params.histLen || this.histLen || NoteQuota.PARAMS_OFFLINE.histLen;
+		if(allowance !== this.allowance || max !== this.max || histLen !== this.histLen) {
 			this.allowance = allowance;
 			this.max = max;
-			this.maxHistLen = maxHistLen;
+			this.histLen = histLen;
 			this.resetPoints();
 			return true;
 		}
@@ -39,7 +39,7 @@ var exports = (function() {
 	NoteQuota.prototype.resetPoints = function() {
 		this.points = this.max;
 		this.history = [];
-		for(var i = 0; i < this.maxHistLen; i++)
+		for(var i = 0; i < this.histLen; i++)
 			this.history.unshift(this.points);
 		if(this.cb) this.cb(this.points);
 	};
@@ -47,7 +47,7 @@ var exports = (function() {
 	NoteQuota.prototype.tick = function() {
 		// keep a brief history
 		this.history.unshift(this.points);
-		this.history.length = this.maxHistLen;
+		this.history.length = this.histLen;
 		// hook a brother up with some more quota
 		if(this.points < this.max) {
 			this.points += this.allowance;
