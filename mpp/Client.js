@@ -75,7 +75,7 @@ Client.prototype.connect = function() {
 	if(typeof module !== "undefined") {
 		// nodejsicle
 		this.ws = new WebSocket(this.uri, {
-			origin: "https://www.multiplayerpiano.com"
+			origin: "https://multiplayerpiano.com"
 		});
 	} else {
 		// browseroni
